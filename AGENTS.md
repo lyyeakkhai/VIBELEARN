@@ -140,3 +140,11 @@ You should use standard `npm` commands for execution and development. Here is a 
 - `npm run db:generate`: Generate database migrations.
 - `npm run db:push`: Push schema changes directly to the database.
 - `npm run db:seed`: Run the database seeding script.
+
+---
+
+# 13. Superpowers Plugin Restriction
+
+- **Never Use Superpowers:** NEVER invoke or use any skills, workflows, or rules from the `superpowers` plugin (including but not limited to `using-superpowers`, `brainstorming`, `writing-plans`, `executing-plans`, `subagent-driven-development`, `systematic-debugging`, `test-driven-development`, `verification-before-completion`, `finishing-a-development-branch`, `dispatching-parallel-agents`, `using-git-worktrees`) for this project.
+- Always follow exclusively the project-specific guidelines, loop, and workflow defined in `AGENTS.md` and `docs/`.
+
