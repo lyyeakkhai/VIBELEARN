@@ -1,41 +1,44 @@
-import { useState } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom';
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Home from './pages/Home';
+import Catalog from './pages/Catalog';
+import CourseDetail from './pages/CourseDetail';
+import Lesson from './pages/Lesson';
+import MyLearning from './pages/MyLearning';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const location = useLocation();
+  const isLessonPage = location.pathname.includes('/lessons/');
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center justify-center p-6">
-      <div className="max-w-md w-full bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-xl text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-600/20 text-indigo-400 mb-4">
-          <span className="text-2xl font-bold">VL</span>
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-          Vibelearn
-        </h1>
-        <p className="text-slate-400 text-sm mb-6">
-          Phase 1 Foundation scaffolded with React, Vite, and TailwindCSS.
-        </p>
+    <div className="min-h-screen flex flex-col bg-neutral-50 font-sans text-neutral-900">
+      {/* Global Navigation Header */}
+      <Navbar />
 
-        <div className="bg-slate-900/60 rounded-xl p-4 border border-slate-700/60 mb-6">
-          <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-2">
-            Status
-          </p>
-          <div className="flex items-center justify-center space-x-2 text-emerald-400 text-sm font-medium">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Frontend Ready</span>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setCount((c) => c + 1)}
-          className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-150 cursor-pointer text-sm shadow-md"
-        >
-          Interactive Check (Clicks: {count})
-        </button>
+      {/* Main Page Routing */}
+      <div className="flex-1 flex flex-col">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courses" element={<Catalog />} />
+          <Route path="/courses/:courseSlug" element={<CourseDetail />} />
+          <Route path="/courses/:courseSlug/lessons/:lessonSlug" element={<Lesson />} />
+          <Route
+            path="/my-learning"
+            element={
+              <ProtectedRoute>
+                <MyLearning />
+              </ProtectedRoute>
+            }
+          />
+          {/* Catch-all fallback */}
+          <Route path="*" element={<Home />} />
+        </Routes>
       </div>
-    </div>
-  )
-}
 
-export default App
+      {/* Global Footer (hidden on lesson player to preserve distraction-free video viewing) */}
+      {!isLessonPage && <Footer />}
+    </div>
+  );
+}
